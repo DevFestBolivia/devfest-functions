@@ -3,7 +3,6 @@ import { getAuth, UserRecord } from "firebase-admin/auth";
 import QueryDocumentSnapshot = firestore.QueryDocumentSnapshot;
 
 import { completePhoneNumber } from "../utils/phoneUtil";
-import { generatePassword } from "../utils/passwordUtil";
 
 export const registerUserWithEmail = async (snap: QueryDocumentSnapshot): Promise<boolean> => {
     const {email, id, fullName, phone} = snap.data();
@@ -25,7 +24,7 @@ export const createAccountWithEmailPassword = async (id: string, email: string, 
         displayName: fullName,
         phoneNumber: completePhoneNumber(phone),
         emailVerified: true,
-        password: generatePassword(phone, fullName),
+        password: id,
         disabled: false
     });
     console.log("createAccountWithEmailPassword", userRecord.email);
