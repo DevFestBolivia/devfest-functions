@@ -6,7 +6,9 @@ import {getAttendeeById} from "./fbAttendees";
 
 export const registerUserWithEmail = async (snap: QueryDocumentSnapshot): Promise<boolean> => {
     const {email, id, fullName, phone} = snap.data();
-    console.log("registerUserWithEmailPassword", email, id, fullName, phone);
+    console.log("registerUserWithEmail userId", email, id);
+    console.log("registerUserWithEmail docId", email, snap.id);
+    console.log("registerUserWithEmailPassword", email, snap.id, fullName, phone);
     try {
         const user: UserRecord = await createAccountWithEmailPassword(id, email, fullName);
         console.log("registerUserWithEmailPassword", user.email);

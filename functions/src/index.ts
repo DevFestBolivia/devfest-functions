@@ -20,7 +20,7 @@ exports.registerNewUsersByIds = functions.https.onRequest(async (req, res) => {
 });
 
 exports.loginWithGoogle = functions.https.onCall((data) => {
-    const {id, email, displayName, photoUrl} = data;
-    console.log("loginWithGoogle", id, email, displayName, photoUrl);
+    const {id, email, displayName, photoUrl, serverAuthCode} = data;
+    console.log("loginWithGoogle", id, email, displayName, photoUrl, serverAuthCode);
     return getAttendeeByEmail(email);
 });
