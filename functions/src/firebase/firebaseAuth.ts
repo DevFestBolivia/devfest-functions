@@ -10,7 +10,7 @@ export const registerUserWithEmail = async (snap: QueryDocumentSnapshot): Promis
     console.log("registerUserWithEmail docId", email, snap.id);
     console.log("registerUserWithEmailPassword", email, snap.id, fullName, phone);
     try {
-        const user: UserRecord = await createAccountWithEmailPassword(id, email, fullName);
+        const user: UserRecord = await createAccountWithEmailPassword(snap.id, email, fullName);
         console.log("registerUserWithEmailPassword", user.email);
     } catch (e) {
         console.log("registerUserWithEmailPassword Error", e);
