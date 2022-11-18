@@ -2,7 +2,7 @@ import {firestore} from "firebase-admin";
 import {getAuth, UserRecord} from "firebase-admin/auth";
 import QueryDocumentSnapshot = firestore.QueryDocumentSnapshot;
 
-import {getAttendeeById} from "./fbAttendees";
+import {getAllAttendees, getAttendeeById} from "./fbAttendees";
 
 export const registerUserWithEmail = async (snap: QueryDocumentSnapshot): Promise<boolean> => {
     const {email, id, fullName, phone} = snap.data();
@@ -57,4 +57,12 @@ export const createAccountWithEmailPassword = async (id: string, email: string, 
     });
     console.log("createAccountWithEmailPassword", userRecord.email);
     return userRecord;
+}
+
+export const getAllAttendeesEmails = async (): Promise<string[]> => {
+    const attendees = await getAllAttendees();
+    return attendees.map(attendee => {
+        const attendeeData = attendee.data();
+        return attendeeData?.email;
+    });
 }

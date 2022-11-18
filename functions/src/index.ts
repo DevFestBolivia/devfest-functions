@@ -1,7 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import {getAttendeeByEmail} from "./firebase/fbAttendees";
-import {registerNewUsersByIds, registerUserWithEmail} from "./firebase/firebaseAuth";
+import {getAllAttendeesEmails, registerNewUsersByIds, registerUserWithEmail} from "./firebase/firebaseAuth";
 
 admin.initializeApp();
 
@@ -11,7 +11,7 @@ exports.registerNewUser = functions.firestore.document("/attendees/{id}").onCrea
 
 exports.registerNewUsersByIds = functions.https.onRequest(async (req, res) => {
     const {ids = [], authCode = ""} = req.body;
-    if (authCode == "authCode") {
+    if (authCode == "5CRpWD62XWvNbeWZBGIf") {
         console.log("registerNewUsersByIds", ids);
         const users = await registerNewUsersByIds(ids)
         res.send(users);
@@ -23,4 +23,22 @@ exports.loginWithGoogle = functions.https.onCall((data) => {
     const {id, email, displayName, photoUrl, serverAuthCode} = data;
     console.log("loginWithGoogle", id, email, displayName, photoUrl, serverAuthCode);
     return getAttendeeByEmail(email);
+});
+
+exports.getAllAttendeesEmails = functions.https.onRequest(async (req, res) => {
+    const { authCode = ""} = req.body;
+    let result: string[] = [];
+    if (authCode == "") {
+        result = await getAllAttendeesEmails();
+    }
+    res.send(result);
+});
+
+exports.userExistsByEmail = functions.https.onRequest(async (req, res) => {
+    const {email, authCode = ""} = req.body;
+    if (authCode == "") {
+        console.log("userExists", email);
+        const attendee = await getAttendeeByEmail(email);
+        res.send(attendee);
+    }
 });

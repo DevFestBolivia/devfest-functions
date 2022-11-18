@@ -18,3 +18,9 @@ export const getAttendeeById = async (id: string): Promise<DocumentSnapshot> => 
     console.log("getAttendeeById", snap?.data()?.email);
     return snap;
 }
+
+export const getAllAttendees = async (): Promise<DocumentSnapshot[]> => {
+    const snap = await firestore().collection("attendees").get();
+    console.log("getAllAttendees", snap.docs.length);
+    return snap.docs;
+}
